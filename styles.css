@@ -51,7 +51,7 @@ img {
     0% {
         /* width: 20px;
         height: 20px; */
-        opacity: 0.2;
+        opacity: 0;
     }
     100% {
         /* width: 30px;
