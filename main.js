@@ -55,8 +55,8 @@ function gameStart(){
     if (window.innerWidth < 530 || window.innerHeigh < 650){
         alert(`Your screen is too small. Play on a much bigger screen`);
         container.style.backgroundColor = 'black';
-        container.style.width = window.innerWidth;
-        container.style.height = window.innerHeight;
+        container.style.width = String(screen.width - 20) + 'px';
+        container.style.height = String(screen.height - 20) + 'px';
         return;
     }
     
