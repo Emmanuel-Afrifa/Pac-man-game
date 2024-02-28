@@ -7,6 +7,10 @@ const squares = [];
 let ghosttype = `<img src="./images/ghost.png">`;
 const gameOverDisplay = document.querySelector('#game-over-section')
 const gameOverScore = document.querySelector('#score-keeper-actual')
+const won = document.querySelector('#won');
+const gameOverHeading = document.querySelector('#go-heading');
+const restartButton = document.querySelector('#restart-button');
+let dotsEaten = 0;
 
 // Legend
 // 1 = wall
@@ -25,11 +29,11 @@ grid = [
     1,0,1,0,1,0,1,1,0,0,1,1,0,1,0,1,
     1,0,1,0,1,0,1,0,0,0,0,1,0,1,0,1,
     1,0,1,0,1,0,1,0,0,0,0,1,0,1,0,1,
-    1,0,1,0,1,0,1,1,1,1,1,1,0,1,0,1,
-    1,0,1,0,1,0,1,1,1,1,1,1,0,1,0,1,
-    1,0,1,0,1,0,1,1,1,1,1,1,0,1,0,1,
-    1,0,1,0,1,0,1,1,1,1,1,1,0,1,0,1,
-    1,0,1,0,1,0,1,1,1,1,1,1,0,1,0,1,
+    1,0,1,0,1,0,1,1,1,1,0,1,0,1,0,1,
+    1,0,1,0,1,0,0,0,0,0,0,1,0,1,0,1,
+    1,0,1,0,1,0,1,0,1,1,1,1,0,1,0,1,
+    1,0,1,0,1,0,1,0,0,0,1,1,0,1,0,1,
+    1,0,1,0,1,0,1,1,1,0,1,1,0,1,0,1,
     1,0,0,0,0,3,0,0,0,0,0,0,0,0,0,1,
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 ]
@@ -119,7 +123,7 @@ function movePacman(e){
     updateDisplay(pacmanIndexNow)
     eatenPowerPallet(pacmanIndexNow)
     // checkGameOver()
-    // checkGameWin()
+    checkGameWin()
 
     
 }
@@ -128,6 +132,7 @@ function updateDisplay(index, class1='power-pellet', class2='pac-dot'){
     if (squares[index].classList.contains(class2)){
         squares[index].classList.remove(class2);
         score += 1;
+        dotsEaten += 1;
     }
     scoreDisplay.innerText = score;
 }
@@ -136,6 +141,7 @@ function eatenPowerPallet(index){
     if (squares[index].classList.contains('power-pellet')){
         squares[index].classList.remove('power-pellet');
         ghosts.forEach(ghost => ghost.isScared = true )
+        dotsEaten += 1;
         score += 10;  
         setTimeout(ghostRecovered, 10000);     
     }
@@ -191,6 +197,7 @@ function moving(ghost, ghosttype){
     }
 
     if (ghost.isScared && squares[ghost.ghostIndex].classList.contains('pacman')){
+        ghost.isScared = false
         score += 100;
         scoreDisplay.innerText = score;
         squares[ghost.ghostIndex].classList.remove('ghost');
@@ -210,14 +217,26 @@ function isGameOver(ghost) {
             ghosts.forEach(ghost => clearInterval(ghost.timer));
             document.removeEventListener('keydown', movePacman);
             gameOverScore.innerText = score;
-            gameOverDisplay.style.display = 'flex';
+            setTimeout( function(){ 
+                gameOverDisplay.style.display = 'flex';
+                won.style.display = 'none';
+                gameOverHeading.style.display = 'flex';
+        }, 500);
     }
 }
 
-function displayGameOver(){
-    // pass
+function checkGameWin(){
+    if ((score >= 147 && dotsEaten == 120)){
+        ghosts.forEach(ghost => { clearInterval(ghost.timer) });
+        document.removeEventListener('keydown', movePacman);
+        gameOverScore.innerText = score;
+        setTimeout( function(){ 
+            gameOverDisplay.style.display = 'flex';
+            won.style.display = 'flex';
+            gameOverHeading.style.display = 'none';
+    }, 500);
+    }
 }
-
 function ghostRecovered(){
     ghosts.forEach(ghost => {
         ghost.isScared = false;
@@ -227,6 +246,27 @@ function ghostRecovered(){
 }
 
 
+function restart(){
+    gameOverDisplay.style.display = 'none';
+    score = 0;
+    dotsEaten = 0;
+    scoreDisplay.innerText = score;
+    ghosts.forEach(ghost => {
+
+        ghost.isScared = false;
+        ghost.ghostIndex = ghost.startIndex;
+    })
+    pacmanIndexNow = 17;
+    
+    for (let square of squares){
+        container.removeChild(square);
+    }
+    squares.splice(0,squares.length);
+    gameStart();
+
+}
+
+restartButton.addEventListener('click', restart);
 
 
 window.addEventListener('load', gameStart);

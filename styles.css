@@ -101,6 +101,13 @@ img {
 
 #go-heading {
     /* margin-top: 0px; */
+    display: none;
+    font-size: 25px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#won {
     font-size: 25px;
     margin-top: 0px;
     margin-bottom: 0px;
