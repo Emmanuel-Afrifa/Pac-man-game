@@ -12,6 +12,8 @@ body {
     background: linear-gradient(0deg,rgb(0, 225, 255), rgb(0, 128, 28)) no-repeat;
     font-family: "Pacifico", cursive;
     font-weight: 400;
+    width: 100%;
+    overflow: hidden;
 }
 
 h1 {
