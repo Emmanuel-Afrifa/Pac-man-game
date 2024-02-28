@@ -51,6 +51,13 @@ class Ghost {
 const ghosts = [new Ghost(85, 150), new Ghost(115, 150), new Ghost(238, 150)];
 
 function gameStart(){
+
+    if (window.innerWidth < 530 || window.innerHeigh < 650){
+        alert(`Your screen is too small. Play on a much bigger screen`);
+        container.style.backgroundColor = 'black';
+        return;
+    }
+    
     createGameBoard();
     createCharacters();
     document.addEventListener('keydown', movePacman);
