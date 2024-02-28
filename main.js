@@ -56,6 +56,7 @@ function gameStart(){
         alert(`Your screen is too small. Play on a much bigger screen`);
         container.style.backgroundColor = 'black';
         container.style.width = window.innerWidth;
+        container.style.height = window.innerHeight;
         return;
     }
     
