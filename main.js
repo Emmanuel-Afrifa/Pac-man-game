@@ -55,6 +55,7 @@ function gameStart(){
     if (window.innerWidth < 530 || window.innerHeigh < 650){
         alert(`Your screen is too small. Play on a much bigger screen`);
         container.style.backgroundColor = 'black';
+        container.style.width = window.innerWidth;
         return;
     }
     
@@ -259,7 +260,6 @@ function restart(){
     dotsEaten = 0;
     scoreDisplay.innerText = score;
     ghosts.forEach(ghost => {
-
         ghost.isScared = false;
         ghost.ghostIndex = ghost.startIndex;
     })
